@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Moq;
 using StarWars.MVC.Controllers;
 using Xunit;
 
@@ -9,8 +11,9 @@ namespace StarWars.MVC.Tests
         [Fact]
         public async Task Movies_Returns_ViewResult()
         {
+            var mockLogger = new Mock<ILogger<HomeController>>();
             // Arrange
-            var controller = new HomeController();
+            var controller = new HomeController(mockLogger.Object);
 
             // Act
             var result = await controller.Movies();
@@ -22,8 +25,9 @@ namespace StarWars.MVC.Tests
         [Fact]
         public async Task Planets_Returns_ViewResult()
         {
+            var mockLogger = new Mock<ILogger<HomeController>>();
             // Arrange
-            var controller = new HomeController();
+            var controller = new HomeController(mockLogger.Object);
 
             // Act
             var result = await controller.Planets();
