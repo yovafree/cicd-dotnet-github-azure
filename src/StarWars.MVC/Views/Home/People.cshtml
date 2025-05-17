@@ -1,0 +1,30 @@
+﻿@model List<StarWars.MVC.Models.People>
+
+@{
+    ViewBag.Title = "Personajes Star Wars";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Listado de Personajes</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var personaje in Model)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@personaje.Name</h5>
+                        <p class="card-text">
+                            <strong>Altura:</strong> @personaje.Height cm<br />
+                            <strong>Peso:</strong> @personaje.Mass kg<br />
+                            <strong>Color de ojos:</strong> @personaje.Eye_Color<br />
+                            <strong>Color de piel:</strong> @personaje.Skin_Color<br />
+                            <strong>Género:</strong> @personaje.Gender<br />
+                            <strong>Año de nacimiento:</strong> @personaje.Birth_Year
+                        </p>
+                        <a href="@personaje.Url" class="btn btn-primary" target="_blank">Ver más</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
