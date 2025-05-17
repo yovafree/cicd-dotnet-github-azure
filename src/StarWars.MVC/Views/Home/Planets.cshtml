@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Planetas del universo Star Wars";
+}
+
+@model List<StarWars.MVC.Models.Planet>
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">🌌 Planetas del universo Star Wars</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var planet in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">@planet.Name</h5>
+                        <p class="card-text"><strong>Clima:</strong> @planet.Climate</p>
+                        <p class="card-text"><strong>Terreno:</strong> @planet.Terrain</p>
+                        <p class="card-text"><strong>Gravedad:</strong> @planet.Gravity</p>
+                        <p class="card-text"><strong>Diámetro:</strong> @planet.Diameter km</p>
+                        <p class="card-text">
+                            <strong>Rotación:</strong> @planet.RotationPeriod h | 
+                            <strong>Órbita:</strong> @planet.OrbitalPeriod d
+                        </p>
+                        <p class="card-text"><strong>Agua superficial:</strong> @planet.SurfaceWater%</p>
+                        <p class="card-text"><strong>Población:</strong> @planet.Population</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

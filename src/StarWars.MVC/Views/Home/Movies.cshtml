@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Películas de Star Wars";
+}
+
+@model List<StarWars.MVC.Models.StarWarsMovie>
+
+<h2>Películas de Star Wars</h2>
+
+@foreach (var movie in Model)
+{
+    <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 20px;">
+        <h3>@movie.Title</h3>
+        <p><strong>Episodio:</strong> @movie.EpisodeId</p>
+        <p><strong>Director:</strong> @movie.Director</p>
+        <p><strong>Productor:</strong> @movie.Producer</p>
+        <p><strong>Fecha de estreno:</strong> @movie.ReleaseDate</p>
+        <p><strong>Sinopsis:</strong><br />@movie.OpeningCrawl</p>
+        @{
+            var imgSrc = $"https://starwars-visualguide.com/assets/img/films/{movie.EpisodeId}.jpg";
+        }
+        <img src="@imgSrc" alt="@movie.Title" width="200" />
+    </div>
+}
