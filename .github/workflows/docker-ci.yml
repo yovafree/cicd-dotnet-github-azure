@@ -2,9 +2,9 @@ name: CI/CD - StarWars.MVC a Azure Container Registry
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ master, developer ]
   pull_request:
-    branches: [ master, develop ]
+    branches: [ master, developer ]
 
 jobs:
   build-test-push:
