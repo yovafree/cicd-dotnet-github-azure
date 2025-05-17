@@ -47,6 +47,18 @@ public class HomeController : Controller
         return View(planets);
     }
 
+    public async Task<IActionResult> People()
+    {
+        var json = await _httpClient.GetStringAsync("https://swapi.info/api/people");
+        
+        var people = JsonSerializer.Deserialize<List<People>>(json, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+
+        return View(people);
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
