@@ -1,0 +1,42 @@
+name: CI/CD - StarWars.MVC a Azure Container Registry
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-test-push:
+    runs-on: ubuntu-latest
+
+    env:
+      PROJECT_PATH: StarWars.MVC
+      TEST_PROJECT: StarWars.MVC.Tests
+      IMAGE_NAME: starwarsmvc
+
+    steps:
+    - name: 📥 Checkout del código
+      uses: actions/checkout@v3
+
+    - name: ⚙️ Instalar .NET 9
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: 📦 Restaurar dependencias
+      run: dotnet restore ${{ env.PROJECT_PATH }}
+
+    - name: 🛠️ Compilar aplicación
+      run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore
+
+    - name: 🧪 Ejecutar pruebas
+      run: dotnet test ${{ env.TEST_PROJECT }} --no-build --configuration Release
+
+    - name: 🔐 Autenticarse en ACR
+      run: echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
+
+    - name: 🏗️ Construir y subir imagen Docker a ACR
+      run: |
+        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest -f ${{ env.PROJECT_PATH }}/Dockerfile .
+        docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
