@@ -25,8 +25,17 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: 🚀 Desplegar imagen a Web App
+    - name: ⚙️ Definir nombre de App según entorno
+      id: setapp
+      run: |
+        if [[ "${{ github.event.inputs.environment }}" == "prod" ]]; then
+          echo "APP_NAME=${{ secrets.AZURE_APP_PROD }}" >> $GITHUB_ENV
+        else
+          echo "APP_NAME=${{ secrets.AZURE_APP_DEV }}" >> $GITHUB_ENV
+        fi
+
+    - name: 🚀 Desplegar imagen a Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ secrets[format('AZURE_APP_{0}', github.event.inputs.environment | upper)] }}
+        app-name: ${{ env.APP_NAME }}
         images: ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
