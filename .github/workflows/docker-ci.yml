@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PROJECT_PATH: StarWars.MVC
-      TEST_PROJECT: StarWars.MVC.Tests
+      PROJECT_PATH: src/StarWars.MVC
+      TEST_PROJECT: src/StarWars.MVC.Tests
       IMAGE_NAME: starwarsmvc
 
     steps:
@@ -38,5 +38,5 @@ jobs:
 
     - name: 🏗️ Construir y subir imagen Docker a ACR
       run: |
-        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest -f ${{ env.PROJECT_PATH }}/Dockerfile .
+        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest -f ${{ env.PROJECT_PATH }}/Dockerfile src/
         docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
