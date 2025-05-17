@@ -1,16 +1,10 @@
-name: 🚀 Despliegue manual a Azure
+name: 🚀 CD - Despliegue automático a Azure
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Selecciona el entorno de despliegue"
-        required: true
-        default: "dev"
-        type: choice
-        options:
-          - dev
-          - prod
+  push:
+    branches:
+      - master
+      - developer
 
 jobs:
   deploy:
@@ -25,13 +19,14 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: ⚙️ Definir nombre de App según entorno
-      id: setapp
+    - name: ⚙️ Definir nombre del App Service según la rama
       run: |
-        if [[ "${{ github.event.inputs.environment }}" == "prod" ]]; then
+        if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
           echo "APP_NAME=${{ secrets.AZURE_APP_PROD }}" >> $GITHUB_ENV
-        else
+        elif [[ "${{ github.ref }}" == "refs/heads/developer" ]]; then
           echo "APP_NAME=${{ secrets.AZURE_APP_DEV }}" >> $GITHUB_ENV
+        else
+          echo "Rama no válida para despliegue" && exit 1
         fi
 
     - name: 🚀 Desplegar imagen a Azure Web App
