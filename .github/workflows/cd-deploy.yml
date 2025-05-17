@@ -1,0 +1,32 @@
+name: 🚀 Despliegue manual a Azure
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Selecciona el entorno de despliegue"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: starwarsmvc
+
+    steps:
+    - name: 🔐 Autenticarse en Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 🚀 Desplegar imagen a Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ secrets[format('AZURE_APP_{0}', github.event.inputs.environment | upper)] }}
+        images: ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest

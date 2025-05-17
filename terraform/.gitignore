@@ -1,0 +1,26 @@
+# Archivos y carpetas comunes de Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+*.backup
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Archivos sensibles
+*.pem
+*.key
+*.crt
+*.env
+
+# Archivos de logs o debug
+*.log
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
